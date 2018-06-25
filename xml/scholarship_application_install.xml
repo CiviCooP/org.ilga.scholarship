@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
-
 <CustomData>
   <CustomGroups>
     <CustomGroup>
@@ -585,7 +584,7 @@
       <option_group_name>are_you_interested_in__20180618193327</option_group_name>
     </OptionValue>
     <OptionValue>
-      <label>Women&rsquo;s issues</label>
+      <label>Womens issues</label>
       <value>5</value>
       <name>Women_s_issues</name>
       <is_default>0</is_default>
