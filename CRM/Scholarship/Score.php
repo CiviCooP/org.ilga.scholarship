@@ -187,6 +187,11 @@ class CRM_Scholarship_Score {
     'Travestis' => 1,
   ];
 
+  private static $hivSexList = [
+    'you are a person living with HIV' => 1,
+    'you are a sex worker' =>1,
+  ];
+
   private $caseId;
   private $disability;
   private $identity;
@@ -256,7 +261,6 @@ class CRM_Scholarship_Score {
 
 
     if($contact['country_id']) {
-      echo "{$contact['country_id']} \n";
       $this->country_code = civicrm_api3('Country', 'getvalue', [
         'id' => $contact['country_id'],
         'return' => 'iso_code',
@@ -307,7 +311,7 @@ class CRM_Scholarship_Score {
           'value' => $identityId,
           'option_group_id' => "how_do_you_identify__20180715101511",
         ));
-        if($this::$identifyList[$label]){
+        if(self::$identifyList[$label]){
           $points += 1;
           $this->explanation[] = "1 points for identity {$label}";
         }
@@ -323,11 +327,11 @@ class CRM_Scholarship_Score {
       $points = 0;
       foreach($this->genderIdentity as $genderIdentityId){
         $label = $result = civicrm_api3('OptionValue', 'getvalue', array(
-          'return' => "label",
+          'return' => "name",
           'value' => $genderIdentityId,
           'option_group_id' => "your_gender_20180715102053",
         ));
-        if($this::$genderIdentityId[$label]){
+        if(self::$genderList[$label]){
           $points += 1;
           $this->explanation[] = "1 points for gender identity {$label}";
         }
@@ -359,19 +363,28 @@ class CRM_Scholarship_Score {
       $this->explanation[]= "+1 point because of member of a marginalised community";
     }
 
-    if($this->hiv){
-      $this->score+=3;
-      $this->explanation[]= "+3 point because of person living with hiv";
+    if(is_array($this->hiv)){
+      $points = 0;
+      foreach($this->hiv as $hivId){
+        if($hivId) {
+          $label = $result = civicrm_api3('OptionValue', 'getvalue', [
+            'return' => "name",
+            'value' => $hivId,
+            'option_group_id' => "are_you_hiv_positive_sex_worker__20180715104805",
+          ]);
+          if (self::$hivSexList[$label]) {
+            $points += 1;
+            $this->explanation[] = "2 points for {$label}";
+          }
+        }
+      }
+      $this->score +=$points;
     }
 
-    if($this->sexworker){
-      $this->score+=3;
-      $this->explanation[]= "+3 point because of sex worker";
-    }
 
     if(!($this->receivedScholarship)){
       $this->score+=1;
-      $this->explanation[]= "+1 point because no scholarship beforemo";
+      $this->explanation[]= "+1 point because first scholarship before";
     }
 
 
@@ -399,8 +412,8 @@ class CRM_Scholarship_Score {
   public function process(){
     $this->getInfo();
     $this->calculate();
-    echo $this->score;
-    print_r($this->explanation);
+    //echo $this->score;
+    //print_r($this->explanation);
     $this->set();
   }
 
