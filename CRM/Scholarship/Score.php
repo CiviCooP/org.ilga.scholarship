@@ -288,7 +288,10 @@ class CRM_Scholarship_Score {
 
     $this->score = 0;
 
-    // TODO full member ilga
+    if(CRM_Scholarship_Utils::applicationFromFullMember($this->caseId)){
+      $this->score += 3;
+      $this->explanation[] = '3 because the represented organisation is a full member';
+    }
 
     if ($this->birthDate > $this->referenceDateYounger30) {
       $this->score += 3;
