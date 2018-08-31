@@ -195,9 +195,11 @@ class CRM_Scholarship_Score {
   private $hiv;
   private $sexworker;
 
+
   private $receivedScholarship;
   private $workShop;
   private $birthDate;
+  private $nationality;
   private $country;
   private $country_code;
   private $stateProvince;
@@ -237,11 +239,12 @@ class CRM_Scholarship_Score {
 
 
     $this->genderIdentity = $values[variable_get(ILGA_SCHOLARSHIP_GENDER_IDENTITY_CUSTOM_FIELD)];
-    $this->intersex = $values[variable_get(ILGA_SCHOLARSHIP_INTERSEX_CUSTOM_FIELD)];;
-    $this->indigenous = $values[variable_get(ILGA_SCHOLARSHIP_INDIGENOUS_CUSTOM_FIELD)];;
-    $this->marginalised = $values[variable_get(ILGA_SCHOLARSHIP_MARGINALISED_CUSTOM_FIELD)];;
-    $this->hiv = $values[variable_get(ILGA_SCHOLARSHIP_HIV_CUSTOM_FIELD)];;
-    $this->sexworker = $values[variable_get(ILGA_SCHOLARSHIP_SEXWORKER_CUSTOM_FIELD)];;
+    $this->intersex = $values[variable_get(ILGA_SCHOLARSHIP_INTERSEX_CUSTOM_FIELD)];
+    $this->indigenous = $values[variable_get(ILGA_SCHOLARSHIP_INDIGENOUS_CUSTOM_FIELD)];
+    $this->marginalised = $values[variable_get(ILGA_SCHOLARSHIP_MARGINALISED_CUSTOM_FIELD)];
+    $this->hiv = $values[variable_get(ILGA_SCHOLARSHIP_HIV_CUSTOM_FIELD)];
+    $this->sexworker = $values[variable_get(ILGA_SCHOLARSHIP_SEXWORKER_CUSTOM_FIELD)];
+    $this->nationality = $values[variable_get(ILGA_SCHOLARSHIP_NATIONALITY_CUSTOM_FIELD)];
 
     $client_id = $values['client_id'];
     $contactId = $client_id[1];
@@ -253,12 +256,13 @@ class CRM_Scholarship_Score {
     $this->stateProvinceName   = $contact['state_province_name'];
 
 
-    if($contact['country_id']) {
-      $this->country_code = civicrm_api3('Country', 'getvalue', [
-        'id' => $contact['country_id'],
-        'return' => 'iso_code',
+
+    if($this->nationality) {
+      $result = civicrm_api3('Country', 'getsingle', [
+        'id' =>$this->nationality,
       ]);
-      $this->country = $contact['country'];
+      $this->country = $result['name'];
+      $this->country_code = $result['iso_code'];
     }
 
     $date = variable_get(ILGA_SCHOLARSHIP_REFERENCE_DATE);
@@ -296,7 +300,7 @@ class CRM_Scholarship_Score {
     }
     if (in_array($this->country_code, $this::$countryList)) {
       $this->score += 1;
-      $this->explanation[] = "1 points for being resident of {$this->country}";
+      $this->explanation[] = "1 points for having the nationality of {$this->country}";
     }
 
     if(is_array($this->identity)){
@@ -341,22 +345,22 @@ class CRM_Scholarship_Score {
 
     if($this->intersex){
       $this->score+=3;
-      $this->explanation[]= "+3 point because of intersex";
+      $this->explanation[]= "3 point because of intersex";
     }
 
     if($this->indigenous){
       $this->score+=3;
-      $this->explanation[]= "+3 point because of member of indeginous or traditional group";
+      $this->explanation[]= "3 point because of member of indeginous or traditional group";
     }
 
     if($this->disability){
       $this->score+=3;
-      $this->explanation[]= "+3 point because of disability";
+      $this->explanation[]= "3 point because of disability";
     }
 
     if($this->marginalised){
       $this->score+=1;
-      $this->explanation[]= "+1 point because of member of a marginalised community";
+      $this->explanation[]= "1 point because of member of a marginalised community";
     }
 
     if(is_array($this->hiv)){
@@ -380,7 +384,7 @@ class CRM_Scholarship_Score {
 
     if(!($this->receivedScholarship)){
       $this->score+=1;
-      $this->explanation[]= "+1 point because first scholarship before";
+      $this->explanation[]= "1 point because first scholarship before";
     }
 
 
