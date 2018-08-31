@@ -143,13 +143,6 @@ class CRM_Scholarship_Score {
     'TV', // Tuvaly
     'VU', // Vanuatu
 
-    // North America
-    'US', // United States
-    'CA', // Canada
-
-    // Keboom
-    //'WW', // Keboom
-
   ];
 
   private static $identifyList = [
