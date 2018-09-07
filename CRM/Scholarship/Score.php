@@ -313,12 +313,12 @@ class CRM_Scholarship_Score {
         ));
         if(self::$identifyList[$label]){
           $points += 1;
-          $this->explanation[] = "1 points for identity {$label}";
+          $this->explanation[] = "1 points for sexual orientation {$label}";
         }
       }
       if($points>2){
         $points = 2;
-        $this->explanation[]= "max 2 points for identity";
+        $this->explanation[]= "max 2 points for sexual orientation";
       }
       $this->score +=$points;
     }
