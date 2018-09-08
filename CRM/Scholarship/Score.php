@@ -367,14 +367,14 @@ class CRM_Scholarship_Score {
       $points = 0;
       foreach($this->hiv as $hivId){
         if($hivId) {
-          $label = $result = civicrm_api3('OptionValue', 'getvalue', [
-            'return' => "name",
+          $label = civicrm_api3('OptionValue', 'getvalue', [
+            'return' => "label",
             'value' => $hivId,
             'option_group_id' => "are_you_hiv_positive_sex_worker__20180715104805",
           ]);
           if (self::$hivSexList[$label]) {
-            $points += 1;
-            $this->explanation[] = "2 points for {$label}";
+            $points += 3;
+            $this->explanation[] = "3 points for {$label}";
           }
         }
       }
