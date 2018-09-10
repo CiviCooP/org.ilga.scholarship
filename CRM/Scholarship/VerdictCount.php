@@ -43,8 +43,8 @@ class CRM_Scholarship_VerdictCount {
     while($dao->fetch()){
       $this->verdictSummary .= "{$dao->label} {$dao->count} \n";
       if($dao->val==variable_get(ILGA_SCHOLARSHIP_VERDICT_COUNT_VALUE) &&
-         $dao->count >= variable_get(ILGA_SCHOLARSHIP_VERDICT_COUNT_VALUE)){
-        $warning = "WARNING you past the number of ".variable_get(ILGA_SCHOLARSHIP_VERDICT_COUNT_VALUE)." on ".$dao->label."\n\n";
+         $dao->count >= variable_get(ILGA_SCHOLARSHIP_VERDICT_COUNT_LEVEL)){
+        $warning = "WARNING you past the number of ".variable_get(ILGA_SCHOLARSHIP_VERDICT_COUNT_LEVEL)." on ".$dao->label."\n\n";
       }
     }
     $this->verdictSummary=$warning.$this->verdictSummary;
