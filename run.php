@@ -1,6 +1,9 @@
 <?php
 
    civicrm_initialize();
-   echo 'Hello';
-   $score = new CRM_Scholarship_Score(769);
+
+   $score = new CRM_Scholarship_Score(785);
    $score->process();
+   print_r($score);
+
+
