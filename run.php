@@ -2,7 +2,7 @@
 
    civicrm_initialize();
 
-   $score = new CRM_Scholarship_Score(785);
+   $score = new CRM_Scholarship_Score(873);
    $score->process();
    print_r($score);
 
