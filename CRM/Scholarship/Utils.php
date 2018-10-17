@@ -118,7 +118,7 @@ class CRM_Scholarship_Utils {
        ac2.contact_id voter,
        cv.{$verdictField} verdictvalue,
        cv.{$submissionField} sid,
-       ov3.name                  verdict
+       ov3.label                  verdict
        from     civicrm_activity act
          join   civicrm_activity_contact ac1 on (ac1.activity_id = act.id)
          join   civicrm_option_value     ov1 on (ov1.value = ac1.record_type_id and ov1.name='Activity Source')
