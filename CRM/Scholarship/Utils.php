@@ -137,8 +137,9 @@ class CRM_Scholarship_Utils {
       $row['sid'] = $dao->sid;
       $row['sessionProposer'] = $dao->sessionProposer;
       $row['sessionEvaluator'] = $dao->sessionEvaluator;
-      $submission = webform_get_submission(12,$dao->sid);
-      $data = $submission->data;
+      $submissions = webform_get_submissions(['sid' => $dao->sid]);
+
+      $data = $submissions[$dao->sid]->data;
       $row['title']=$data[100][0];
       $row['format']=$formatOptions[$data[101][0]];
       $streams = [];
